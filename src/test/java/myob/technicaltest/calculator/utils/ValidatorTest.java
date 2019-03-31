@@ -5,6 +5,7 @@ package myob.technicaltest.calculator.utils;
 
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -26,8 +27,8 @@ public class ValidatorTest {
 		String value = "12312.1";
 		String errmsg = "The value ["+ value +"] is not a valid integer";
 		expected.expectMessage(errmsg);
-		System.out.println("testValidateInteger_invalidInteger1: Testing Validator.validateInteger("+value+")");
 		Validator.validateInteger("12312.1");
+		fail("Expected InvalidValueException");
 	}
 	
 	@Test
@@ -36,8 +37,8 @@ public class ValidatorTest {
 		String value = "Some string";
 		String errmsg = "The value ["+ value +"] is not a valid integer";
 		expected.expectMessage(errmsg);
-		System.out.println("testValidateInteger_invalidInteger2: Testing Validator.validateInteger("+value+")");
 		Validator.validateInteger(value);
+		fail("Expected InvalidValueException");
 	}
 	
 	@Test
@@ -46,8 +47,8 @@ public class ValidatorTest {
 		String value = "12312a";
 		String errmsg = "The value ["+ value +"] is not a valid integer";
 		expected.expectMessage(errmsg);
-		System.out.println("testValidateInteger_invalidInteger3: Testing Validator.validateInteger("+value+")");
 		Validator.validateInteger(value);
+		fail("Expected InvalidValueException");
 	}
 	
 	@Test
@@ -56,8 +57,8 @@ public class ValidatorTest {
 		String value = "2147483650";
 		String errmsg = "The value ["+ value +"] is not a valid integer";
 		expected.expectMessage(errmsg);
-		System.out.println("testValidateInteger_tooHigh: Testing Validator.validateInteger("+ value +")");
 		Validator.validateInteger("2147483650");
+		fail("Expected InvalidValueException");
 	}
 	
 	@Test
@@ -66,44 +67,42 @@ public class ValidatorTest {
 		String value = "-2147483650";
 		String errmsg = "The value ["+ value +"] is not a valid integer";
 		expected.expectMessage(errmsg);
-		System.out.println("testValidateInteger_tooLow: Testing Validator.validateInteger("+value+")");
 		Validator.validateInteger(value);
+		fail("Expected InvalidValueException");
 	}
 
 	@Test
 	public void testValidateInteger_OutOfRange1() throws InvalidValueException {
 		expected.expect(InvalidValueException.class);
 		expected.expectMessage(startsWith("Out of range"));
-		System.out.println("testValidateInteger_OutOfRange1: Testing Validator.validateInteger(100, 110, 150)");
 		Validator.validateInteger("100", 110, 150);
+		fail("Expected InvalidValueException");
 	}
 	
 	@Test
 	public void testValidateInteger_OutOfRange2() throws InvalidValueException {
 		expected.expect(InvalidValueException.class);
-		expected.expectMessage(startsWith("Out of range"));
-		System.out.println("testValidateInteger_OutOfRange2: Testing Validator.validateInteger(100, 50, 80)");
+		expected.expectMessage(startsWith("Out of range"));		
 		Validator.validateInteger("100", 50, 80);
+		fail("Expected InvalidValueException");
 	}
 	
 	@Test
 	public void testValidateInteger_invalidRange() throws InvalidValueException {
 		expected.expect(InvalidValueException.class);
 		expected.expectMessage(startsWith("Invalid range"));
-		System.out.println("testValidateInteger_invalidRange: Testing Validator.validateInteger(100, 120, 80)");
 		Validator.validateInteger("100", 120, 80);
+		fail("Expected InvalidValueException");
 	}
 	
 	@Test
 	public void testValidateInteger_validInteger1() throws InvalidValueException {
-		System.out.println("testValidateInteger_validInteger1: Testing Validator.validateInteger(100, 120, 80)");
 		int valid = Validator.validateInteger("100", 80, 120);
 		assertEquals(100, valid);
 	}
 	
 	@Test
 	public void testValidateInteger_validInteger2() throws InvalidValueException {
-		System.out.println("testValidateInteger_validInteger2: Testing Validator.validateInteger(100, 120, 80)");
 		int valid = Validator.validateInteger("1000");
 		assertEquals(1000, valid);
 	}
@@ -112,15 +111,15 @@ public class ValidatorTest {
 	public void testValidateInteger_lowerBoundTooSmall() throws InvalidValueException {
 		expected.expect(InvalidValueException.class);
 		expected.expectMessage("The lowerbound min is too small");
-		System.out.println("testValidateInteger_lowerBoundTooSmall: Testing Validator.validateInteger(100, -2147483650, 80)");
 		Validator.validateInteger("100", -2147483650L, 80);
+		fail("Expected InvalidValueException");
 	}
 	
 	@Test
 	public void testValidateInteger_upperBoundTooBig() throws InvalidValueException {
 		expected.expect(InvalidValueException.class);
 		expected.expectMessage("The upperbound max is too big");
-		System.out.println("testValidateInteger_lowerBoundTooSmall: Testing Validator.validateInteger(100, 0, 2147483650L)");
 		Validator.validateInteger("100", 0, 2147483650L);
+		fail("Expected InvalidValueException");
 	}
 }
