@@ -9,7 +9,7 @@ import myob.technicaltest.calculator.exceptions.InvalidInputException;
 import myob.technicaltest.calculator.exceptions.MissingParametersException;
 import myob.technicaltest.calculator.exceptions.OperationException;
 
-public abstract class Service {
+public abstract class CalculatorService {
 
 	public abstract String performOperation(Map<String, List<String>> input) throws OperationException;
 	

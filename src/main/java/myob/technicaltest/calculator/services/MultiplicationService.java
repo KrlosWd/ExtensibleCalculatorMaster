@@ -9,7 +9,7 @@ import myob.technicaltest.calculator.exceptions.InvalidValueException;
 import myob.technicaltest.calculator.exceptions.OperationException;
 import myob.technicaltest.calculator.utils.Validator;
 
-public class MultiplicationService extends Service{
+public class MultiplicationService extends CalculatorService{
 
 	@Override
 	public String performOperation(Map<String, List<String>> input) throws OperationException {
