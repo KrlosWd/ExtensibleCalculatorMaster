@@ -36,7 +36,10 @@ public class RootController {
 	}
 	
 	@GetMapping(value = "/calculator/service/{path}", produces = "application/json; charset=UTF-8")
-	public ServiceResponse provideService(@PathVariable String path, @RequestParam MultiValueMap<String, String> allParams) throws CalculatorServiceNotFoundException, MissingParametersException, OperationException, InvalidInputException {
+	public ServiceResponse provideService(@PathVariable String path, 
+			@RequestParam MultiValueMap<String, String> allParams) 
+					throws CalculatorServiceNotFoundException, MissingParametersException, 
+					OperationException, InvalidInputException {
 		if(!ServiceManager.getInstance().containsService(path)) {
 			throw new CalculatorServiceNotFoundException(path);
 		}
