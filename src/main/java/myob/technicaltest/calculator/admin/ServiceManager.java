@@ -2,6 +2,7 @@ package myob.technicaltest.calculator.admin;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Set;
 
 import myob.technicaltest.calculator.exceptions.ClassAlreadyLoadedException;
 import myob.technicaltest.calculator.exceptions.JarAlreadyLoadedException;
@@ -54,5 +55,13 @@ public class ServiceManager {
 	public void loadJarfile(String filepath) throws JarNotFoundException, NotAJarFileException, UnableToReadJarException, JarAlreadyLoadedException, ClassAlreadyLoadedException {
 		File file = new File(filepath);
 		CalculatorServiceLoader.loadJarfile(file);
+	}
+	
+	public Set<String> keySet(){
+		return services.keySet();
+	}
+	
+	public boolean containsService(String key) {
+		return services.containsKey(key);
 	}
 }
