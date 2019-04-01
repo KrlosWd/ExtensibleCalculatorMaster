@@ -1,8 +1,8 @@
-package myob.technicaltest.calculator;
+package myob.technicaltest.calculator.admin;
 
 import java.util.HashMap;
 
-import myob.technicaltest.calculator.services.CalculatorService;
+import myob.technicaltest.calculator.lib.entities.CalculatorService;
 
 public class ServiceManager {
 	private static ServiceManager INSTANCE = null;
@@ -20,22 +20,22 @@ public class ServiceManager {
 	}
 	
 	public CalculatorService getService(String key) {
-		return null;
+		return services.get(key);
 	}
 	
 	public void setService(String key, CalculatorService service) {
-		
+		services.put(key, service);
 	}
 	
 	public CalculatorService removeService(String key) {
-		return null;
+		return services.remove(key);
 	}
 	
 	public void emptyServices() {
-		
+		services.clear();
 	}
 	
 	public int getServicesCount() {
-		return 0;
+		return services.size();
 	}
 }

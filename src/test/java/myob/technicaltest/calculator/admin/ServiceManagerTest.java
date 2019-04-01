@@ -1,4 +1,4 @@
-package myob.technicaltest.calculator;
+package myob.technicaltest.calculator.admin;
 
 import static org.junit.Assert.*;
 
@@ -6,8 +6,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import myob.technicaltest.calculator.admin.ServiceManager;
+import myob.technicaltest.calculator.lib.entities.CalculatorService;
 import myob.technicaltest.calculator.services.AdditionService;
-import myob.technicaltest.calculator.services.CalculatorService;
 import myob.technicaltest.calculator.services.MultiplicationService;
 
 public class ServiceManagerTest {

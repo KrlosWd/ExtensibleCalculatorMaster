@@ -1,7 +1,7 @@
 /**
  * 
  */
-package myob.technicaltest.calculator.entities;
+package myob.technicaltest.calculator.services;
 
 import static org.junit.Assert.*;
 
@@ -13,68 +13,68 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import myob.technicaltest.calculator.exceptions.InvalidInputException;
-import myob.technicaltest.calculator.exceptions.MissingParametersException;
-import myob.technicaltest.calculator.exceptions.OperationException;
-import myob.technicaltest.calculator.services.AdditionService;
+import myob.technicaltest.calculator.lib.exceptions.InvalidInputException;
+import myob.technicaltest.calculator.lib.exceptions.MissingParametersException;
+import myob.technicaltest.calculator.lib.exceptions.OperationException;
+import myob.technicaltest.calculator.services.MultiplicationService;
 
 /**
  * @author Juan Carlos Fuentes Carranza
  *
  */
-public class AdditionServiceTest {
+public class MultiplicationServiceTest {
 
 	@Rule
 	public ExpectedException expected = ExpectedException.none();
-	private static AdditionService addition = new AdditionService();
+	private static MultiplicationService multiply = new MultiplicationService();
 
 	@Test
-	public void testAddition_validateInput() throws InvalidInputException  {
+	public void testMultiplication_validateInput() throws InvalidInputException  {
 		expected.expect(InvalidInputException.class);
 		expected.expectMessage("Missing argument [operand]");
 		HashMap<String, List<String>> input = new HashMap<>();
-		addition.validateInput(input);
+		multiply.validateInput(input);
 		fail("Expected InvalidInputException");
 	}
 	
 	@Test
-	public void testAddition_validateInput2() throws InvalidInputException  {
+	public void testMultiplication_validateInput2() throws InvalidInputException  {
 		expected.expect(InvalidInputException.class);
 		expected.expectMessage("The value [not an integer] is not a valid integer");
 		HashMap<String, List<String>> input = new HashMap<>();
 		input.put("operand", new LinkedList<>());
 		input.get("operand").add("not an integer");
-		addition.validateInput(input);
+		multiply.validateInput(input);
 		fail("Expected InvalidInputException");
 	}
 	
 	@Test
-	public void testAddition_executeService() throws MissingParametersException, OperationException, InvalidInputException {
+	public void testMultiplication_executeService() throws MissingParametersException, OperationException, InvalidInputException {
 		HashMap<String, List<String>> input = new HashMap<>();
 		input.put("operand", new LinkedList<>());
 		input.get("operand").add("10");
 		input.get("operand").add("20");
 		input.get("operand").add("30");
-		String result = addition.executeService(input);
-		assertEquals("60", result);		
+		String result = multiply.executeService(input);
+		assertEquals("6000", result);		
 	}
 	
 	@Test
-	public void testAddition_CalculateResult2() throws MissingParametersException, OperationException, InvalidInputException {
+	public void testMultiplication_executeService2() throws MissingParametersException, OperationException, InvalidInputException {
 		HashMap<String, List<String>> input = new HashMap<>();
 		input.put("operand", new LinkedList<>());
 		input.get("operand").add("10");
 		input.get("operand").add("20");
 		input.get("operand").add("-30");
-		String result = addition.executeService(input);
-		assertEquals("0", result);		
+		String result = multiply.executeService(input);
+		assertEquals("-6000", result);		
 	}
 	
 	@Test
-	public void testAddition_CalculateResult3() throws MissingParametersException, OperationException, InvalidInputException {
+	public void testMultiplication_executeService3() throws MissingParametersException, OperationException, InvalidInputException {
 		expected.expect(MissingParametersException.class);
 		HashMap<String, List<String>> input = new HashMap<>();
-		addition.executeService(input);
+		multiply.executeService(input);
 		fail("Expected MissinParametersException");
 	}
 

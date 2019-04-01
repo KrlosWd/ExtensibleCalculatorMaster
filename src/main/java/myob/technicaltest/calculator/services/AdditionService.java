@@ -4,10 +4,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import myob.technicaltest.calculator.exceptions.InvalidInputException;
-import myob.technicaltest.calculator.exceptions.InvalidValueException;
-import myob.technicaltest.calculator.exceptions.OperationException;
-import myob.technicaltest.calculator.utils.Validator;
+import myob.technicaltest.calculator.lib.entities.CalculatorService;
+import myob.technicaltest.calculator.lib.exceptions.InvalidInputException;
+import myob.technicaltest.calculator.lib.exceptions.InvalidValueException;
+import myob.technicaltest.calculator.lib.exceptions.OperationException;
+import myob.technicaltest.calculator.lib.utils.Validator;
 
 public class AdditionService extends CalculatorService{
 
