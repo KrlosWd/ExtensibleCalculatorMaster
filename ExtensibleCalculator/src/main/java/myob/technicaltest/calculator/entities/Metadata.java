@@ -9,13 +9,11 @@ import java.util.HashMap;
  */
 public class Metadata {
 	HashMap<String, String> author;
-	HashMap<String, String> maven;
-	HashMap<String, String> git;
+	HashMap<String, String> project;
 	
-	public Metadata(HashMap<String, String> authormeta, HashMap<String, String> mavenmeta, HashMap<String, String> gitmeta) {
+	public Metadata(HashMap<String, String> authormeta, HashMap<String, String> project) {
 		this.author = authormeta;
-		this.maven = mavenmeta;
-		this.git = gitmeta;
+		this.project = project;
 		
 	}
 
@@ -27,25 +25,17 @@ public class Metadata {
 		this.author = author;
 	}
 
-	public HashMap<String, String> getMaven() {
-		return maven;
+	public HashMap<String, String> getProject() {
+		return project;
 	}
 
-	public void setMaven(HashMap<String, String> maven) {
-		this.maven = maven;
-	}
-
-	public HashMap<String, String> getGit() {
-		return git;
-	}
-
-	public void setGit(HashMap<String, String> git) {
-		this.git = git;
+	public void setProject(HashMap<String, String> project) {
+		this.project = project;
 	}
 
 	@Override
 	public String toString() {
-		return "Metadata [author=" + author + ", maven=" + maven + ", git=" + git + "]";
+		return "Metadata [author=" + author + ", project=" + project + "]";
 	}
 	
 	

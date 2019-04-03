@@ -61,19 +61,15 @@ public class RootController {
 	@GetMapping(value = "/calculator/metadata", produces = "application/json; charset=UTF-8")
 	public Metadata getProjectMetadata() throws IOException{
 		HashMap<String, String> authormeta = new HashMap<>();
-		HashMap<String, String> gitmeta;
-		HashMap<String, String> mavenmeta;
+		HashMap<String, String> projectmeta;
 		
 		authormeta.put("name", "Juan Carlos Fuentes Carranza");
 		authormeta.put("email", "juan.fuentes.carranza@gmail.com");
 		
-		gitmeta = PropertiesReader.loadProperties("git.properties", 
-				new LinkedList<String>(Arrays.asList("git.branch","git.build.version", "git.commit.id")));
+		projectmeta = PropertiesReader.loadProperties("maven.properties", 
+				new LinkedList<String>(Arrays.asList("name","version", "description", "git.branch", "git.commit.id", "git.build.version")));
 		
-		mavenmeta = PropertiesReader.loadProperties("maven.properties", 
-				new LinkedList<String>(Arrays.asList("name","version", "description")));
-		
-		return new Metadata(authormeta, mavenmeta, gitmeta);
+		return new Metadata(authormeta, projectmeta);
 	}
 	
 	

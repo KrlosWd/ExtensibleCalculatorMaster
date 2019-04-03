@@ -18,12 +18,10 @@ public class PropertiesReaderTest {
 		HashMap<String, String> authormeta = new HashMap<>();
 		authormeta.put("name", "Juan Carlos Fuentes Carranza");
 		authormeta.put("email", "juan.fuentes.carranza@gmail.com");
-		HashMap<String, String> gitmeta = PropertiesReader.loadProperties("git.properties", 
-				new LinkedList<String>(Arrays.asList("git.branch","git.build.version", "git.commit.id")));
 		
 		HashMap<String, String> mavenmeta = PropertiesReader.loadProperties("maven.properties", 
 				new LinkedList<String>(Arrays.asList("name","version", "description")));
-		System.out.println(new Metadata(authormeta, mavenmeta, gitmeta));
+		System.out.println(new Metadata(authormeta, mavenmeta));
 	}
 
 }
