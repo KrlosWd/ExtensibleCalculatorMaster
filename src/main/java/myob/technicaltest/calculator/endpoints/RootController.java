@@ -30,11 +30,20 @@ public class RootController {
 	@Autowired
 	ServiceManager serviceManager; 
 	
+	/**
+	 * Hello World endpoint
+	 * @return SimpleResponse message
+	 */
 	@GetMapping(value = "/calculator", produces = "application/json; charset=UTF-8")
 	public SimpleResponse helloWorld() {
 		return new SimpleResponse("Hello World");
 	}
 	
+	/**
+	 * Endpoint to check the current status of the ExtensibleCalculator. It shows the list of currently 
+	 * available services
+	 * @return List of currently available services
+	 */
 	@GetMapping(value = "/calculator/status", produces = "application/json; charset=UTF-8")
 	public List<CalculatorServiceEntity> getCalculatorServiceList(){
 		LinkedList<CalculatorServiceEntity> entities = new LinkedList<>();
@@ -44,6 +53,11 @@ public class RootController {
 		return entities;
 	}
 	
+	/**
+	 * Metadata endpoint
+	 * @return Metadata object with metadata info of the project
+	 * @throws IOException is an error occurred while loading the properties files containing the metadata
+	 */
 	@GetMapping(value = "/calculator/metadata", produces = "application/json; charset=UTF-8")
 	public Metadata getProjectMetadata() throws IOException{
 		HashMap<String, String> authormeta = new HashMap<>();
@@ -62,6 +76,17 @@ public class RootController {
 		return new Metadata(authormeta, mavenmeta, gitmeta);
 	}
 	
+	
+	/**
+	 * Endpoint used as router to access all CalculatorService implementations loaded
+	 * @param path This is the path related to one CalculatorService
+	 * @param allParams Complete list of parameters from the request
+	 * @return A service response from the CalculatorService requested
+	 * @throws CalculatorServiceNotFoundException if no CalculatorService is associated to the path
+	 * @throws MissingParametersException if parameters were missing in the request for the CalculatorService
+	 * @throws OperationException if an error occurred during the execution of the service
+	 * @throws InvalidInputException if the input was rejected by the CalculatorService
+	 */
 	@GetMapping(value = "/calculator/service/{path}", produces = "application/json; charset=UTF-8")
 	public ServiceResponse provideService(@PathVariable String path, 
 			@RequestParam MultiValueMap<String, String> allParams) 
@@ -81,6 +106,12 @@ public class RootController {
 	}
 	
 	
+	/**
+	 * Endpoint to get help of any given CalculatorService
+	 * @param path The path to the CalculatorService
+	 * @return help message for the CalculatorService
+	 * @throws CalculatorServiceNotFoundException if no CalculatorService was found in path
+	 */
 	@GetMapping(value = "/calculator/service/{path}/help", produces = "application/json; charset=UTF-8")
 	public SimpleResponse provideServiceHelp(@PathVariable String path) throws CalculatorServiceNotFoundException {
 		if(!serviceManager.containsService(path)) {

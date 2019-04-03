@@ -1,5 +1,11 @@
 package myob.technicaltest.calculator.entities;
 
+
+/**
+ * POJO that represents the response of the API in case a CalculatorService is invoked
+ * @author Juan Carlos Fuentes Carranza <juan.fuentes.carranza@gmail.com>
+ *
+ */
 public class ServiceResponse {
 	private long responseTime;
 	private String input;

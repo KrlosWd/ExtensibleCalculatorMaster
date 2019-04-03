@@ -10,6 +10,11 @@ import myob.technicaltest.calculator.lib.exceptions.InvalidValueException;
 import myob.technicaltest.calculator.lib.exceptions.OperationException;
 import myob.technicaltest.calculator.lib.utils.Validator;
 
+/**
+ * Basic CalculatorService used to add up numbers from a list
+ * @author Juan Carlos Fuentes Carranza <juan.fuentes.carranza@gmail.com>
+ *
+ */
 public class MultiplicationService extends CalculatorService{
 
 	@Override

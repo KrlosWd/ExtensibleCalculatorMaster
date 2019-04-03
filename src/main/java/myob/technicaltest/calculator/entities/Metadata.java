@@ -2,6 +2,11 @@ package myob.technicaltest.calculator.entities;
 
 import java.util.HashMap;
 
+/**
+ * Response for the /calculator/metadata endpoint
+ * @author Juan Carlos Fuentes Carranza <juan.fuentes.carranza@gmail.com>
+ *
+ */
 public class Metadata {
 	HashMap<String, String> author;
 	HashMap<String, String> maven;

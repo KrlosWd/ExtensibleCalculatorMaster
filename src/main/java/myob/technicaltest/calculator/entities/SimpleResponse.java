@@ -1,5 +1,10 @@
 package myob.technicaltest.calculator.entities;
 
+/**
+ * POJO that represents the most simple response of the API
+ * @author Juan Carlos Fuentes Carranza <juan.fuentes.carranza@gmail.com>
+ *
+ */
 public class SimpleResponse {
 	private String message;
 

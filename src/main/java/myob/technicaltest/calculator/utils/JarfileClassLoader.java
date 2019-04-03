@@ -47,7 +47,7 @@ import myob.technicaltest.calculator.exceptions.UnableToReadJarException;
  * </pre>
  *
  *
- * @author Juan Carlos Fuentes Carranza
+ * @author Juan Carlos Fuentes Carranza <juan.fuentes.carranza@gmail.com>
  */
 
 public class JarfileClassLoader extends ClassLoader{

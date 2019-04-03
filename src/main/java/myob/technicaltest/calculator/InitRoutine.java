@@ -14,6 +14,10 @@ public class InitRoutine {
 	@Autowired
 	ServiceManager serviceManager;
 	
+	/**
+	 * Initialization Routine used to load two calculator services embedded in the project
+	 * @return null
+	 */
 	@Bean
 	CommandLineRunner initCalculatorServices() {
 		serviceManager.setService("addition", new AdditionService());
