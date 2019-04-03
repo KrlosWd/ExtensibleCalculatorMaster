@@ -1,0 +1,23 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 	<parent>
+		<groupId>myob.technicaltest.calculator</groupId>
+		<artifactId>ExtensibleCalculatorMaster</artifactId>
+		<version>1.0.0</version>
+		<relativePath>../ExtensibleCalculatorMaster/pom.xml</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>myob.technicaltest.calculator.service</groupId>
+	<artifactId>ExponentialServices</artifactId>
+	<packaging>jar</packaging>
+	<name>ExponentialServices</name>
+	<url>http://maven.apache.org</url>
+	<dependencies>
+		<dependency>
+			<groupId>myob.technicaltest.calculator.lib</groupId>
+			<artifactId>ExtensibleCalculatorLib</artifactId>
+			<version>1.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+</project>
