@@ -1,5 +1,6 @@
 package myob.technicaltest.calculator;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,11 +11,13 @@ import myob.technicaltest.calculator.services.MultiplicationService;
 
 @Configuration
 public class InitRoutine {
-
+	@Autowired
+	ServiceManager serviceManager;
+	
 	@Bean
 	CommandLineRunner initCalculatorServices() {
-		ServiceManager.getInstance().setService("addition", new AdditionService());
-		ServiceManager.getInstance().setService("multiplication", new MultiplicationService());
+		serviceManager.setService("addition", new AdditionService());
+		serviceManager.setService("multiplication", new MultiplicationService());
 		return null;
 	}
 }

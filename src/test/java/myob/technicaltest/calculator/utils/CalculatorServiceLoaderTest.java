@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import myob.technicaltest.calculator.exceptions.ClassAlreadyLoadedException;
@@ -16,6 +17,13 @@ import myob.technicaltest.calculator.lib.entities.CalculatorService;
 
 public class CalculatorServiceLoaderTest {
 
+	@Before
+	public void setUp() {
+		//If we do not update the JarfileClassLoader instance before (or after) each test, since the JarfileClassLoader is a singleton
+		//classes loaded in one test could affect other test (e.g., because they do not expect any loaded classes yet)
+		JarfileClassLoader.getInstance().updateInstance(Thread.currentThread().getContextClassLoader());
+	}
+	
 	@Test
 	public void testLoadJarfileGetInstance() throws JarNotFoundException, NotAJarFileException, UnableToReadJarException, JarAlreadyLoadedException, ClassAlreadyLoadedException, ClassNotFoundException, InstantiationException, IllegalAccessException, NotACalculatorServiceException {
 		String fileName = "ExponentialServices-1.0.0.jar";

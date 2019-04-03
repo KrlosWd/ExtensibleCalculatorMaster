@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Set;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import myob.technicaltest.calculator.exceptions.ClassAlreadyLoadedException;
 import myob.technicaltest.calculator.exceptions.JarAlreadyLoadedException;
 import myob.technicaltest.calculator.exceptions.JarNotFoundException;
@@ -13,19 +16,14 @@ import myob.technicaltest.calculator.exceptions.UnableToReadJarException;
 import myob.technicaltest.calculator.lib.entities.CalculatorService;
 import myob.technicaltest.calculator.utils.CalculatorServiceLoader;
 
+@Component
+@Scope("singleton")
 public class ServiceManager {
-	private static ServiceManager INSTANCE = null;
 	private final HashMap<String, CalculatorService> services;
+
 	
-	private ServiceManager() {
+	public ServiceManager() {
 		services = new HashMap<>();
-	}
-	
-	public static synchronized ServiceManager getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new ServiceManager();
-		}
-		return INSTANCE;
 	}
 	
 	public CalculatorService getService(String key) {

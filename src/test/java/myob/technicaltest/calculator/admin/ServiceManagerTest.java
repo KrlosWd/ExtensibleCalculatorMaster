@@ -7,6 +7,10 @@ import java.io.File;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import myob.technicaltest.calculator.admin.ServiceManager;
 import myob.technicaltest.calculator.exceptions.ClassAlreadyLoadedException;
@@ -18,79 +22,87 @@ import myob.technicaltest.calculator.exceptions.UnableToReadJarException;
 import myob.technicaltest.calculator.lib.entities.CalculatorService;
 import myob.technicaltest.calculator.services.AdditionService;
 import myob.technicaltest.calculator.services.MultiplicationService;
+import myob.technicaltest.calculator.utils.JarfileClassLoader;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class ServiceManagerTest {
 	private static AdditionService addition = new AdditionService();
 	private static MultiplicationService multiplication = new MultiplicationService();
 	
+	@Autowired
+	ServiceManager serviceManager;
+	@Autowired
+	ServiceManager serviceManager2;
+	
 	
 	@Before
 	public void setUp() {
-		ServiceManager.getInstance().setService("addition", addition);
-		ServiceManager.getInstance().setService("multiplication", multiplication);
+		serviceManager.setService("addition", addition);
+		serviceManager.setService("multiplication", multiplication);
+		//If we do not update the JarfileClassLoader instance before each test, since the JarfileClassLoader is a singleton
+		//classes loaded in one test could affect other test (e.g., because they do not expect any loaded classes yet)
+		JarfileClassLoader.getInstance().updateInstance(Thread.currentThread().getContextClassLoader());
 	}
 	
 	@After
 	public void tearDown() {
-		ServiceManager.getInstance().emptyServices();
+		serviceManager.emptyServices();
 	}
 	
 	@Test
-	public void testGetInstance() {
-		System.out.println("testGetInstance");
-		ServiceManager instance1 = ServiceManager.getInstance();
-		ServiceManager instance2 = ServiceManager.getInstance();
-		assertEquals(instance1, instance2);
+	public void testIsSingleton() {
+		assertEquals(serviceManager, serviceManager2);
 	}
 
 	@Test
 	public void testGetService() {
-		assertEquals(addition, ServiceManager.getInstance().getService("addition"));
-		assertEquals(multiplication, ServiceManager.getInstance().getService("multiplication"));
-		assertEquals(null, ServiceManager.getInstance().getService("non-existent-key"));
+		assertEquals(addition, serviceManager.getService("addition"));
+		assertEquals(multiplication, serviceManager.getService("multiplication"));
+		assertEquals(null, serviceManager.getService("non-existent-key"));
 	}
 	
 	@Test
 	public void testSetService() {
-		ServiceManager.getInstance().setService("addition2", addition);
-		assertEquals(addition, ServiceManager.getInstance().getService("addition2"));
+		serviceManager.setService("addition2", addition);
+		assertEquals(addition, serviceManager.getService("addition2"));
 	}
 
 	@Test
 	public void testRemoveService() {
-		CalculatorService srv = ServiceManager.getInstance().removeService("addition");
-		assertEquals(null, ServiceManager.getInstance().getService("addition"));
+		CalculatorService srv = serviceManager.removeService("addition");
+		assertEquals(null, serviceManager.getService("addition"));
 		assertEquals(srv, addition);
 	}
 	
 	@Test
 	public void testEmptyServices() {
-		ServiceManager.getInstance().emptyServices();
-		assertEquals(null, ServiceManager.getInstance().getService("addition"));
-		assertEquals(null, ServiceManager.getInstance().getService("multiplication"));
+		serviceManager.emptyServices();
+		assertEquals(null, serviceManager.getService("addition"));
+		assertEquals(null, serviceManager.getService("multiplication"));
 	}
 	
 	@Test
 	public void testGetServicesCount() {
-		assertEquals(2, ServiceManager.getInstance().getServicesCount());
-		ServiceManager.getInstance().emptyServices();
-		assertEquals(0, ServiceManager.getInstance().getServicesCount());	
+		assertEquals(2, serviceManager.getServicesCount());
+		serviceManager.emptyServices();
+		assertEquals(0, serviceManager.getServicesCount());	
 	}
 	
 	@Test
 	public void testLoadJarANDsetServiceByClassname() {
 		File file = new File(ClassLoader.getSystemClassLoader().getResource("ExponentialServices-1.0.0.jar").getFile());
 		try {
-			ServiceManager.getInstance().loadJarfile(file.getAbsolutePath());
-			ServiceManager.getInstance().setService("squareRoot", "myob.technicaltest.calculator.service.exponential.SquareRootService");
-			CalculatorService srv = ServiceManager.getInstance().getService("squareRoot");
+			serviceManager.loadJarfile(file.getAbsolutePath());
+			serviceManager.setService("squareRoot", "myob.technicaltest.calculator.service.exponential.SquareRootService");
+			CalculatorService srv = serviceManager.getService("squareRoot");
 			String serviceExpectedDescription = "SquareRootService: Takes a list [r_1, r_2, ..., r_n] of radicands and returns a String representation \n"
 					+ "of the list [s_1, s_2, ..., s_n] where s_i represents the square root of r_i\n"
 					+ "			@param  radicand List of n radicand numbers\n"
 					+ "			@return String representation of the list [s_1, s_2, ..., s_n]\n";
 			
-			ServiceManager.getInstance().setService("addition2", "myob.technicaltest.calculator.services.AdditionService");
-			srv = ServiceManager.getInstance().getService("addition2");
+			serviceManager.setService("addition2", "myob.technicaltest.calculator.services.AdditionService");
+			srv = serviceManager.getService("addition2");
 			serviceExpectedDescription = "Addition Service: Calculates the addition of 'n' numbers\n"
 					+ "			@param  operand List of one or more numbers to add\n"
 					+ "			@return The sum of all operand values provided\n";
