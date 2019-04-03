@@ -188,20 +188,20 @@ public class JarfileClassLoader extends ClassLoader{
 	public void addFile(File jFile) throws JarNotFoundException, NotAJarFileException, UnableToReadJarException, JarAlreadyLoadedException, ClassAlreadyLoadedException {
 		if (!jFile.exists()) {
 			log.error("The file (" + jFile.getAbsolutePath() + ") does not exist!");
-			throw new JarNotFoundException("El archivo jar (" + jFile.getAbsolutePath() + ") no existe!");
+			throw new JarNotFoundException(jFile.getAbsolutePath());
 		}
 		if (!jFile.getName().matches(".*\\.jar$")) {
 			log.error("The file (" + jFile.getAbsolutePath() + ") is not a jar file!");
-			throw new NotAJarFileException("The file (" + jFile.getAbsolutePath() + ") is not a jar file!");
+			throw new NotAJarFileException(jFile.getAbsolutePath());
 		}
 		if (!jFile.canRead()) {
-			log.error("Unable to read file (" + jFile.getAbsolutePath() + ")");
-			throw new UnableToReadJarException("Unable to read file (" + jFile.getAbsolutePath() + ")");
+			log.error("Unable to read file (" + jFile.getAbsolutePath());
+			throw new UnableToReadJarException(jFile.getAbsolutePath());
 		}
 		
 		if (jar2classes.containsKey(jFile.getAbsolutePath())) {
 			log.error("Jar already loaded (" + jFile.getAbsolutePath() + ")");
-			throw new JarAlreadyLoadedException("Jar already loaded (" + jFile.getAbsolutePath() + ")");
+			throw new JarAlreadyLoadedException(jFile.getAbsolutePath());
 		}
 		synchronized (jFile.getName().intern()) {
 			try (JarFile jarFile = new JarFile(jFile)) {
@@ -224,7 +224,7 @@ public class JarfileClassLoader extends ClassLoader{
 
 					if (class2jar.containsKey(className)) {
 						log.error("Class (" + className + ") already associated to jar (" + class2jar.get(className) + ")");
-						throw new ClassAlreadyLoadedException("Class (" + className + ") already associated to jar (" + class2jar.get(className) + ")");
+						throw new ClassAlreadyLoadedException(className);
 					}
 				}
 

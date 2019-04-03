@@ -12,7 +12,7 @@
 	<name>ExtensibleCalculator</name>
 	<description>Technical Test for MYOB</description>
 	<properties>
-    	<name>${project.name></name>
+    	<name>${project.name}</name>
     	<version>${project.version}</version>
     	<description>${project.description}</description>
 	</properties>
@@ -60,7 +60,7 @@
 					<verbose>false</verbose>
 					<generateGitPropertiesFile>true</generateGitPropertiesFile>
 					<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
-					<format>json</format>
+					<format>properties</format>
 					<gitDescribe>
 						<skip>false</skip>
 						<always>false</always>

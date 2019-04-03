@@ -1,5 +1,8 @@
 package myob.technicaltest.calculator.endpoints;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import myob.technicaltest.calculator.admin.ServiceManager;
 import myob.technicaltest.calculator.entities.CalculatorServiceEntity;
+import myob.technicaltest.calculator.entities.Metadata;
 import myob.technicaltest.calculator.entities.ServiceResponse;
 import myob.technicaltest.calculator.entities.SimpleResponse;
 import myob.technicaltest.calculator.exceptions.CalculatorServiceNotFoundException;
@@ -19,6 +23,7 @@ import myob.technicaltest.calculator.lib.entities.CalculatorService;
 import myob.technicaltest.calculator.lib.exceptions.InvalidInputException;
 import myob.technicaltest.calculator.lib.exceptions.MissingParametersException;
 import myob.technicaltest.calculator.lib.exceptions.OperationException;
+import myob.technicaltest.calculator.utils.PropertiesReader;
 
 @RestController
 public class RootController {
@@ -39,6 +44,24 @@ public class RootController {
 		return entities;
 	}
 	
+	@GetMapping(value = "/calculator/metadata", produces = "application/json; charset=UTF-8")
+	public Metadata getProjectMetadata() throws IOException{
+		HashMap<String, String> authormeta = new HashMap<>();
+		HashMap<String, String> gitmeta;
+		HashMap<String, String> mavenmeta;
+		
+		authormeta.put("name", "Juan Carlos Fuentes Carranza");
+		authormeta.put("email", "juan.fuentes.carranza@gmail.com");
+		
+		gitmeta = PropertiesReader.loadProperties("git.properties", 
+				new LinkedList<String>(Arrays.asList("git.branch","git.build.version", "git.commit.id")));
+		
+		mavenmeta = PropertiesReader.loadProperties("maven.properties", 
+				new LinkedList<String>(Arrays.asList("name","version", "description")));
+		
+		return new Metadata(authormeta, mavenmeta, gitmeta);
+	}
+	
 	@GetMapping(value = "/calculator/service/{path}", produces = "application/json; charset=UTF-8")
 	public ServiceResponse provideService(@PathVariable String path, 
 			@RequestParam MultiValueMap<String, String> allParams) 
@@ -49,8 +72,8 @@ public class RootController {
 		}
 		CalculatorService srv = serviceManager.getService(path);
 		String output = srv.executeService(allParams);
-		long iniTime = System.currentTimeMillis();		
-		ServiceResponse res = new ServiceResponse(System.currentTimeMillis() - iniTime, 
+		long iniTime = System.nanoTime();		
+		ServiceResponse res = new ServiceResponse(System.nanoTime() - iniTime, 
 				allParams.toString(), 
 				output, 
 				srv.getClass().getName());

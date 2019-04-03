@@ -12,11 +12,24 @@ import myob.technicaltest.calculator.lib.entities.CalculatorService;
 import myob.technicaltest.calculator.utils.JarfileClassLoader;
 
 public class CalculatorServiceLoader {
-	public static void loadJarfile(File file) throws JarNotFoundException, NotAJarFileException, UnableToReadJarException, JarAlreadyLoadedException, ClassAlreadyLoadedException {
+	private static CalculatorServiceLoader INSTANCE = null;
+	
+	private CalculatorServiceLoader() {
+		JarfileClassLoader.getInstance().updateInstance(this.getClass().getClassLoader());
+	}
+	
+	public static synchronized CalculatorServiceLoader getInstance() {
+		if(INSTANCE == null) {
+			INSTANCE = new CalculatorServiceLoader();
+		}
+		return INSTANCE;
+	}
+	
+	public synchronized void loadJarfile(File file) throws JarNotFoundException, NotAJarFileException, UnableToReadJarException, JarAlreadyLoadedException, ClassAlreadyLoadedException {
 		JarfileClassLoader.getInstance().addFile(file);
 	}
 	
-	public static CalculatorService getServiceInstance(String className) throws ClassNotFoundException, InstantiationException, IllegalAccessException, NotACalculatorServiceException {
+	public synchronized CalculatorService getServiceInstance(String className) throws ClassNotFoundException, InstantiationException, IllegalAccessException, NotACalculatorServiceException {
 		Class<?> clazz = JarfileClassLoader.getInstance().loadClass(className);
 		Object obj = clazz.newInstance();
 		

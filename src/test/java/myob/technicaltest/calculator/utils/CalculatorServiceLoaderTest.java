@@ -28,8 +28,8 @@ public class CalculatorServiceLoaderTest {
 	public void testLoadJarfileGetInstance() throws JarNotFoundException, NotAJarFileException, UnableToReadJarException, JarAlreadyLoadedException, ClassAlreadyLoadedException, ClassNotFoundException, InstantiationException, IllegalAccessException, NotACalculatorServiceException {
 		String fileName = "ExponentialServices-1.0.0.jar";
 		File file = new File(ClassLoader.getSystemClassLoader().getResource(fileName).getFile());
-		CalculatorServiceLoader.loadJarfile(file);
-		CalculatorService srv = CalculatorServiceLoader.getServiceInstance("myob.technicaltest.calculator.service.exponential.SquareRootService");
+		CalculatorServiceLoader.getInstance().loadJarfile(file);
+		CalculatorService srv = CalculatorServiceLoader.getInstance().getServiceInstance("myob.technicaltest.calculator.service.exponential.SquareRootService");
 		String serviceExpectedDescription = "SquareRootService: Takes a list [r_1, r_2, ..., r_n] of radicands and returns a String representation \n"
 				+ "of the list [s_1, s_2, ..., s_n] where s_i represents the square root of r_i\n"
 				+ "			@param  radicand List of n radicand numbers\n"

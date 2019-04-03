@@ -35,7 +35,7 @@ public class ServiceManager {
 	}
 	
 	public void setService(String key, String className) throws ClassNotFoundException, InstantiationException, IllegalAccessException, NotACalculatorServiceException {
-		services.put(key, CalculatorServiceLoader.getServiceInstance(className));
+		services.put(key, CalculatorServiceLoader.getInstance().getServiceInstance(className));
 	}
 	
 	public CalculatorService removeService(String key) {
@@ -52,7 +52,7 @@ public class ServiceManager {
 	
 	public void loadJarfile(String filepath) throws JarNotFoundException, NotAJarFileException, UnableToReadJarException, JarAlreadyLoadedException, ClassAlreadyLoadedException {
 		File file = new File(filepath);
-		CalculatorServiceLoader.loadJarfile(file);
+		CalculatorServiceLoader.getInstance().loadJarfile(file);
 	}
 	
 	public Set<String> keySet(){
