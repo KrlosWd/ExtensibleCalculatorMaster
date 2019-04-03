@@ -67,7 +67,7 @@ public class RootController {
 		authormeta.put("email", "juan.fuentes.carranza@gmail.com");
 		
 		projectmeta = PropertiesReader.loadProperties("maven.properties", 
-				new LinkedList<String>(Arrays.asList("name","version", "description", "git.branch", "git.commit.id", "git.build.version")));
+				new LinkedList<String>(Arrays.asList("name","version", "description")));
 		
 		return new Metadata(authormeta, projectmeta);
 	}
