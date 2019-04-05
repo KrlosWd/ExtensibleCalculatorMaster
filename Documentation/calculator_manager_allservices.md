@@ -1,6 +1,7 @@
 ## Removing all **`CalculatorService`** implementations
 
-The endpoint  `/calculator/manager/allServices` is used to remove all **`CalculatorService`** implementations known by the **ExtensibleCalculator**.
+The endpoint  `/calculator/manager/allServices` is used to remove all **`CalculatorService`** implementations 
+known by the **ExtensibleCalculator**.
 
 | Method | Path                              | Parameters                  |
 | ------ | --------------------------------- | --------------------------- |

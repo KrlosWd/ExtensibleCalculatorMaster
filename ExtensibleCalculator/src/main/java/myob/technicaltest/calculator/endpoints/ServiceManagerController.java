@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import myob.technicaltest.calculator.admin.ServiceManager;
+import myob.technicaltest.calculator.entities.Constants;
 import myob.technicaltest.calculator.entities.SimpleResponse;
 import myob.technicaltest.calculator.exceptions.CalculatorServiceNotFoundException;
 import myob.technicaltest.calculator.exceptions.ClassAlreadyLoadedException;
@@ -42,7 +43,7 @@ public class ServiceManagerController {
 	 * @throws JarAlreadyLoadedException if the jar had been loaded previously
 	 * @throws ClassAlreadyLoadedException if one class of the jar had been loaded before
 	 */
-	@PostMapping(value = "/calculator/manager/jar", produces = "application/json; charset=UTF-8")
+	@PostMapping(value = "/calculator/manager/jar", produces = Constants.ENDPOINT_PRODUCES)
 	public SimpleResponse loadJar(@RequestParam String filepath) throws JarNotFoundException, NotAJarFileException, UnableToReadJarException, JarAlreadyLoadedException, ClassAlreadyLoadedException {
 		serviceManager.loadJarfile(filepath);
 		log.trace("POST request to /calculator/manager/jar");
@@ -66,7 +67,7 @@ public class ServiceManagerController {
 	 * @throws NotACalculatorServiceException if the class is not a CalculatorService
 	 * @throws IllegalAccessException if an illegal access was attempted as a result of loading the class
 	 */
-	@PutMapping(value = "/calculator/manager/service", produces = "application/json; charset=UTF-8")
+	@PutMapping(value = "/calculator/manager/service", produces = Constants.ENDPOINT_PRODUCES)
 	public SimpleResponse loadService(@RequestParam String path, @RequestParam String className) 
 			throws ClassNotFoundException, InstantiationException, NotACalculatorServiceException, IllegalAccessException {
 		serviceManager.setService(path, className);
@@ -87,7 +88,7 @@ public class ServiceManagerController {
 	 * @return Response message
 	 * @throws CalculatorServiceNotFoundException if the service in "path" does not exists
 	 */
-	@DeleteMapping(value = "/calculator/manager/service", produces = "application/json; charset=UTF-8")
+	@DeleteMapping(value = "/calculator/manager/service", produces = Constants.ENDPOINT_PRODUCES)
 	public SimpleResponse removeService(@RequestParam String path) throws CalculatorServiceNotFoundException {
 		log.trace("DELETE request to /calculator/manager/service");
 		if(!serviceManager.containsService(path)) {
@@ -108,7 +109,7 @@ public class ServiceManagerController {
 	 * related to the services from the ClassLoader
 	 * @return Response Message
 	 */
-	@DeleteMapping(value = "/calculator/manager/allServices", produces = "application/json; charset=UTF-8")
+	@DeleteMapping(value = "/calculator/manager/allServices", produces = Constants.ENDPOINT_PRODUCES)
 	public SimpleResponse removeAllServices() {
 		log.trace("DELETE request to /calculator/manager/allServices");
 		int serviceCount = serviceManager.getServicesCount();

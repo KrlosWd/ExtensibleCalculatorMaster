@@ -1,6 +1,8 @@
 ## Status Message
 
-The endpoint  `/calculator/status` returns the current status of the **ExtensibleCalculator**, which shows the current **`CalculatorService`** implementation loaded into the system, and their related path. By default two implementations are loaded: **AdditionService** and **MultiplicationService**.
+The endpoint  `/calculator/status` returns the current status of the **ExtensibleCalculator**, 
+which shows the current list of available **`CalculatorService`** implementation, and their related path. 
+By default two implementations are loaded: **AdditionService** and **MultiplicationService**.
 
 | Method | Path                    | Parameters |
 | ------ | ------------------------| -----------|

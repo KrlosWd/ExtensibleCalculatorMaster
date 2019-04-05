@@ -1,7 +1,9 @@
 ExtensibleCalculator API
 ========================
 
-In this section a description of all endpoints is given. The first subsection describes the endpoints related to the management of **`CalculatorService`**'s and the second subsection decribes the base endpoints and endpoints related to the usage of **`CalculatorService`** implementations.
+The API of the ExtensibleCalculator is organized in two groups. The first group contains endpoints related to the management
+of **`CalculatorService`** implementations, and the second group contains endpoints related to the usage of 
+the **`CalculatorService`** implementations and other basic endpoints.
 
 * **`CalculatorService`**'s Management
     *    [`/calculator/manager/jar`](./calculator_manager_jar.md)

@@ -1,6 +1,8 @@
 ## Loading and Removing **`CalculatorService`** implementations
 
-The endpoint  `/calculator/manager/service` is in charge of loading **`CalculatorService`** implementations and make them available in a given path (see [`/calculator/service/{path}`](calculator_service_path.md) endpoint), and of removing **`CalculatorService`** implementations from any given path.
+The endpoint  `/calculator/manager/service` is used to load **`CalculatorService`** implementations to make
+them available in a given path (see [`/calculator/service/{path}`](calculator_service_path.md) endpoint), 
+and to remove **`CalculatorService`** implementations from any given path.
 
 ### Loading **`CalculatorService`** implementations
 

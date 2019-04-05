@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import myob.technicaltest.calculator.admin.ServiceManager;
 import myob.technicaltest.calculator.entities.CalculatorServiceEntity;
+import myob.technicaltest.calculator.entities.Constants;
 import myob.technicaltest.calculator.entities.Metadata;
 import myob.technicaltest.calculator.entities.ServiceResponse;
 import myob.technicaltest.calculator.entities.SimpleResponse;
@@ -41,10 +42,10 @@ public class RootController {
 	 * Hello World endpoint
 	 * @return SimpleResponse message
 	 */
-	@GetMapping(value = "/calculator", produces = "application/json; charset=UTF-8")
+	@GetMapping(value = "/calculator", produces = Constants.ENDPOINT_PRODUCES)
 	public SimpleResponse helloWorld() {
 		log.trace("GET Request to /calculator");
-		SimpleResponse response = new SimpleResponse("Hello World");
+		SimpleResponse response = new SimpleResponse(Constants.WELCOME_MESSAGE);
 		log.trace("RESPONSE: " + response);
 		return response;
 	}
@@ -58,7 +59,7 @@ public class RootController {
 	 * available services
 	 * @return List of currently available services
 	 */
-	@GetMapping(value = "/calculator/status", produces = "application/json; charset=UTF-8")
+	@GetMapping(value = "/calculator/status", produces = Constants.ENDPOINT_PRODUCES)
 	public List<CalculatorServiceEntity> getCalculatorServiceList(){
 		log.trace("GET Request to /calculator/status");
 		LinkedList<CalculatorServiceEntity> entities = new LinkedList<>();
@@ -77,14 +78,14 @@ public class RootController {
 	 * @return Metadata object with metadata info of the project
 	 * @throws IOException is an error occurred while loading the properties files containing the metadata
 	 */
-	@GetMapping(value = "/calculator/metadata", produces = "application/json; charset=UTF-8")
+	@GetMapping(value = "/calculator/metadata", produces = Constants.ENDPOINT_PRODUCES)
 	public Metadata getProjectMetadata() throws IOException{
 		log.trace("GET Request to /calculator/metadata");
 		HashMap<String, String> authormeta = new HashMap<>();
 		HashMap<String, String> projectmeta;
 		
-		authormeta.put("name", "Juan Carlos Fuentes Carranza");
-		authormeta.put("email", "juan.fuentes.carranza@gmail.com");
+		authormeta.put("name", Constants.AUTHOR);
+		authormeta.put("email", Constants.AUTHOR_EMAIL);
 		
 		projectmeta = PropertiesReader.loadProperties("maven.properties", 
 				new LinkedList<String>(Arrays.asList("name","version", "description")));
@@ -110,7 +111,7 @@ public class RootController {
 	 * @throws OperationException if an error occurred during the execution of the service
 	 * @throws InvalidInputException if the input was rejected by the CalculatorService
 	 */
-	@GetMapping(value = "/calculator/service/{path}", produces = "application/json; charset=UTF-8")
+	@GetMapping(value = "/calculator/service/{path}", produces = Constants.ENDPOINT_PRODUCES)
 	public ServiceResponse provideService(@PathVariable String path, 
 			@RequestParam MultiValueMap<String, String> allParams) 
 					throws CalculatorServiceNotFoundException, MissingParametersException, 
@@ -141,7 +142,7 @@ public class RootController {
 	 * @return help message for the CalculatorService
 	 * @throws CalculatorServiceNotFoundException if no CalculatorService was found in path
 	 */
-	@GetMapping(value = "/calculator/service/{path}/help", produces = "application/json; charset=UTF-8")
+	@GetMapping(value = "/calculator/service/{path}/help", produces = Constants.ENDPOINT_PRODUCES)
 	public CalculatorServiceDescription provideServiceHelp(@PathVariable String path) throws CalculatorServiceNotFoundException {
 		log.trace("GET Request to /calculator/service/" + path + "/help");
 		if(!serviceManager.containsService(path)) {
