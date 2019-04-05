@@ -1,10 +1,11 @@
 package myob.technicaltest.calculator.services;
 
-import java.util.LinkedList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import myob.technicaltest.calculator.lib.entities.CalculatorService;
+import myob.technicaltest.calculator.lib.entities.CalculatorServiceDescription;
 import myob.technicaltest.calculator.lib.exceptions.InvalidInputException;
 import myob.technicaltest.calculator.lib.exceptions.InvalidValueException;
 import myob.technicaltest.calculator.lib.exceptions.OperationException;
@@ -31,12 +32,6 @@ public class MultiplicationService extends CalculatorService{
 		return Integer.toString(total);
 	}
 
-	@Override
-	public List<String> getExpectedParameters() {
-		LinkedList<String> expectedParams = new LinkedList<>();
-		expectedParams.add("operand");
-		return expectedParams;
-	}
 
 	@Override
 	public void validateInput(Map<String, List<String>> input) throws InvalidInputException {
@@ -55,10 +50,14 @@ public class MultiplicationService extends CalculatorService{
 	}
 
 	@Override
-	public String getDescription() {
-		return "Multiplication Service: Calculates the multiplication of 'n' numbers\n"
-				+ "			@param  operand List of one or more numbers to multiply\n"
-				+ "			@return The multiplication of all operand values provided\n";
+	public CalculatorServiceDescription getDescription() {
+		CalculatorServiceDescription description = new CalculatorServiceDescription();
+		HashMap<String, String> parameters = new HashMap<>(); 
+		description.setDescription("MultiplicationService: Calculates the multiplication of 'n' numbers");
+		parameters.put("operand", "operand List of one or more numbers to multiply");
+		description.setParameters(parameters);
+		description.setOutput("The multiplication of all operand values provided");
+		return description;
 	}
 
 

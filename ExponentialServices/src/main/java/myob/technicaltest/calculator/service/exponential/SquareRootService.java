@@ -1,10 +1,12 @@
 package myob.technicaltest.calculator.service.exponential;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import myob.technicaltest.calculator.lib.entities.CalculatorService;
+import myob.technicaltest.calculator.lib.entities.CalculatorServiceDescription;
 import myob.technicaltest.calculator.lib.exceptions.InvalidInputException;
 import myob.technicaltest.calculator.lib.exceptions.InvalidValueException;
 import myob.technicaltest.calculator.lib.exceptions.OperationException;
@@ -30,13 +32,6 @@ public class SquareRootService extends CalculatorService{
 	}
 
 	@Override
-	public List<String> getExpectedParameters() {
-		LinkedList<String> expectedParams = new LinkedList<>();
-		expectedParams.add("radicand");
-		return expectedParams;
-	}
-
-	@Override
 	public void validateInput(Map<String, List<String>> input) throws InvalidInputException {
 		if(!input.containsKey("radicand")) {
 			throw new InvalidInputException("Missing argument [radicand]");
@@ -54,10 +49,13 @@ public class SquareRootService extends CalculatorService{
 	}
 
 	@Override
-	public String getDescription() {
-		return "SquareRootService: Takes a list [r_1, r_2, ..., r_n] of radicands and returns a String representation \n"
-				+ "of the list [s_1, s_2, ..., s_n] where s_i represents the square root of r_i\n"
-				+ "			@param  radicand List of n radicand numbers\n"
-				+ "			@return String representation of the list [s_1, s_2, ..., s_n]\n";
+	public CalculatorServiceDescription getDescription() {
+		CalculatorServiceDescription description = new CalculatorServiceDescription();
+		HashMap<String, String> parameters = new HashMap<>(); 
+		description.setDescription("SquareRootService: Takes a list [r_1, r_2, ..., r_n] of radicands and returns a String representation of the list [s_1, s_2, ..., s_n] where s_i represents the square root of r_i");
+		parameters.put("radicand", "List of n radicand numbers");
+		description.setParameters(parameters);
+		description.setOutput("String representation of the list [s_1, s_2, ..., s_n]");
+		return description;
 	}
 }

@@ -106,7 +106,7 @@ public class RootControllerIntegrationTest {
 		mvc.perform(get("/calculator/service/addition/help"))
 				.andExpect(status().isOk())
 				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.message", is(addition.getDescription())));
+				.andExpect(jsonPath("$.description", is(addition.getDescription().getDescription())));
 	}
 
 }

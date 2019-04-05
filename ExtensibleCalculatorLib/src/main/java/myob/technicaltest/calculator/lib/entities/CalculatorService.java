@@ -18,15 +18,7 @@ public abstract class CalculatorService {
 	 * @return	Users MUST returns a String representation of the result of the operation
 	 * @throws	OperationException is expected to be thrown by the user if something goes wrong with their service 
 	 * */
-	public abstract String performOperation(Map<String, List<String>> input) throws OperationException;
-	
-	/**
-	 * This method is used to tell the framework what parameters are expected by this CalculatorService	
-	 * @return	This method MUST return a list with the names of the expected parameters for this CalculatorService, if
-	 * 			no parameters are required an empty list MUST be returned
-	 * */
-	public abstract List<String> getExpectedParameters();
-	
+	public abstract String performOperation(Map<String, List<String>> input) throws OperationException;	
 	
 	/**
 	 * This method SHOULD be used by the user to define the validation process of this CalculatorService input
@@ -41,7 +33,7 @@ public abstract class CalculatorService {
 	 * of the output 
 	 * @return the description of the service
 	 */
-	public abstract String getDescription();
+	public abstract CalculatorServiceDescription getDescription();
 	
 	
 	/**
@@ -53,7 +45,7 @@ public abstract class CalculatorService {
 	 * @throws InvalidInputException	if the input is invalid according to the method validateInput
 	 */
 	public final String executeService(Map<String, List<String>> parameters) throws MissingParametersException, OperationException, InvalidInputException {
-		List<String> expectedParameters = getExpectedParameters();
+		Set<String> expectedParameters = getDescription().getParameters().keySet();
 		Set<String> keys = parameters.keySet();
 		Map<String, List<String>> input = new HashMap<>();
 		

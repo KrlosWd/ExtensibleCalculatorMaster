@@ -30,11 +30,8 @@ public class CalculatorServiceLoaderTest {
 		File file = new File(ClassLoader.getSystemClassLoader().getResource(fileName).getFile());
 		CalculatorServiceLoader.getInstance().loadJarfile(file);
 		CalculatorService srv = CalculatorServiceLoader.getInstance().getServiceInstance("myob.technicaltest.calculator.service.exponential.SquareRootService");
-		String serviceExpectedDescription = "SquareRootService: Takes a list [r_1, r_2, ..., r_n] of radicands and returns a String representation \n"
-				+ "of the list [s_1, s_2, ..., s_n] where s_i represents the square root of r_i\n"
-				+ "			@param  radicand List of n radicand numbers\n"
-				+ "			@return String representation of the list [s_1, s_2, ..., s_n]\n";
-		assertEquals(serviceExpectedDescription, srv.getDescription());
+		String serviceExpectedDescription = "SquareRootService: Takes a list [r_1, r_2, ..., r_n] of radicands and returns a String representation of the list [s_1, s_2, ..., s_n] where s_i represents the square root of r_i";
+		assertEquals(serviceExpectedDescription, srv.getDescription().getDescription());
 	}
 
 }

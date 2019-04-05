@@ -20,6 +20,7 @@ import myob.technicaltest.calculator.entities.ServiceResponse;
 import myob.technicaltest.calculator.entities.SimpleResponse;
 import myob.technicaltest.calculator.exceptions.CalculatorServiceNotFoundException;
 import myob.technicaltest.calculator.lib.entities.CalculatorService;
+import myob.technicaltest.calculator.lib.entities.CalculatorServiceDescription;
 import myob.technicaltest.calculator.lib.exceptions.InvalidInputException;
 import myob.technicaltest.calculator.lib.exceptions.MissingParametersException;
 import myob.technicaltest.calculator.lib.exceptions.OperationException;
@@ -141,15 +142,15 @@ public class RootController {
 	 * @throws CalculatorServiceNotFoundException if no CalculatorService was found in path
 	 */
 	@GetMapping(value = "/calculator/service/{path}/help", produces = "application/json; charset=UTF-8")
-	public SimpleResponse provideServiceHelp(@PathVariable String path) throws CalculatorServiceNotFoundException {
+	public CalculatorServiceDescription provideServiceHelp(@PathVariable String path) throws CalculatorServiceNotFoundException {
 		log.trace("GET Request to /calculator/service/" + path + "/help");
 		if(!serviceManager.containsService(path)) {
 			throw new CalculatorServiceNotFoundException(path);
 		}
 		CalculatorService srv = serviceManager.getService(path);
-		SimpleResponse res = new SimpleResponse(srv.getDescription());
-		log.trace("RESPONSE:" + res);
-		return res;
+		CalculatorServiceDescription desc = srv.getDescription();
+		log.trace("RESPONSE:" + desc);
+		return desc;
 	}
 	
 }

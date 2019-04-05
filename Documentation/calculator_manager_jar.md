@@ -1,13 +1,16 @@
 ### Loading a Jar File
 
-The endpoint `/calculator/manager/jar` reads a localfile jar file and loads its classes into the system, which is used as a setup step for loading **`CalculatorService`** implementations using the `/calculator/manager/service` endpoint (see [`/calculator/manager/service`](./calculator_manager_service.md)).
+The endpoint `/calculator/manager/jar` reads a localfile jar file and loads its classes into the system,
+ which is used as a setup step for loading **`CalculatorService`** implementations using the
+ `/calculator/manager/service` endpoint (see [`/calculator/manager/service`](./calculator_manager_service.md)).
 
 | Method | Path                       | Parameters         |
 | ------ | -------------------------- | ------------------ |
 | `POST`  | `/calculator/manager/jar`  | `filepath`        |
 
 ##### Parameters:
-* `filepath (string: <required>)`: The absolute path to the jar file to be loaded by the service. This is a path local to the machine running the **ExtensibleCalculator** service.
+* `filepath (string: <required>)`: The absolute path to the jar file to be loaded by the service. This
+ is a path local to the machine running the **ExtensibleCalculator** service.
 
 ##### Example Request
   

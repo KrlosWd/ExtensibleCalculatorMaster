@@ -8,7 +8,7 @@ The endpoint  `/calculator/manager/service` is in charge of loading **`Calculato
 | ------ | ------------------------------ | --------------------------- |
 | `PUT`  | `/calculator/manager/service`  | `path`, `className`         |
 
-##### URL Parameters:
+##### Parameters:
 - `path (string: <required>)`: Path where the **`CalculatorService`** is to be set
 - `className (string: <required>`: The canonical name of the class to be loaded
 					
@@ -16,7 +16,7 @@ The endpoint  `/calculator/manager/service` is in charge of loading **`Calculato
 ##### Example Request
 ```bash
     $ curl  \
-        -X POST http://localhost:8080/calculator/manager/service \
+        -X PUT http://localhost:8080/calculator/manager/service \
         -d "path=squareroot&className=myob.technicaltest.calculator.service.exponential.SquareRootService"
 ```
 
@@ -34,7 +34,7 @@ The endpoint  `/calculator/manager/service` is in charge of loading **`Calculato
 | --------- | ------------------------------ | --------------------------- |
 | `DELETE`  | `/calculator/manager/service`  | `path`                      |
 
-##### URL Parameters:
+##### Parameters:
 - `path (string: <required>)`: Path of the **`CalculatorService`** is to be removed
 					
 

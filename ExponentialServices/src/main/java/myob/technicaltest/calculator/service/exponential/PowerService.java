@@ -1,10 +1,12 @@
 package myob.technicaltest.calculator.service.exponential;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import myob.technicaltest.calculator.lib.entities.CalculatorService;
+import myob.technicaltest.calculator.lib.entities.CalculatorServiceDescription;
 import myob.technicaltest.calculator.lib.exceptions.InvalidInputException;
 import myob.technicaltest.calculator.lib.exceptions.InvalidValueException;
 import myob.technicaltest.calculator.lib.exceptions.OperationException;
@@ -32,14 +34,6 @@ public class PowerService extends CalculatorService{
 			}
 		}
 		return results.toString();
-	}
-
-	@Override
-	public List<String> getExpectedParameters() {
-		LinkedList<String> expectedParams = new LinkedList<>();
-		expectedParams.add("base");
-		expectedParams.add("exponent");
-		return expectedParams;
 	}
 
 	@Override
@@ -76,12 +70,15 @@ public class PowerService extends CalculatorService{
 	}
 
 	@Override
-	public String getDescription() {
-		return "PowerService: Takes a list [p_1, p_2, ..., p_n] of exponents and a list [b_1, b_2, ..., b_n] of bases\n"
-				+ "and returns a String representation of the list [b_1^p_1, b_2^p_2, ..., b_n^p_n] where b_i^p_i represents b to the pth power\n"
-				+ "			@param  base List of n base numbers\n"
-				+ "			@param  exponent List of n exponents\n"
-				+ "			@return String representation of the list [b_1^p_1, b_2^p_2, ..., b_n^p_n]\n";
+	public CalculatorServiceDescription getDescription() {
+		CalculatorServiceDescription description = new CalculatorServiceDescription();
+		HashMap<String, String> parameters = new HashMap<>(); 
+		description.setDescription("PowerService: Takes a list [p_1, p_2, ..., p_n] of exponents and a list [b_1, b_2, ..., b_n] of bases and calculates the list [b_1^p_1, b_2^p_2, ..., b_n^p_n] where b_i^p_i represents b_i raised to the p_i power");
+		parameters.put("base", "list of n numbers representing the base(s)");
+		parameters.put("exponent", "list of n numbers representing the exponent(s)");
+		description.setParameters(parameters);
+		description.setOutput("String representation of the list [b_1^p_1, b_2^p_2, ..., b_n^p_n]");
+		return description;
 	}
 
 

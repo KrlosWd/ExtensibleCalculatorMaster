@@ -1,10 +1,12 @@
 package myob.technicaltest.calculator.services;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import myob.technicaltest.calculator.lib.entities.CalculatorService;
+import myob.technicaltest.calculator.lib.entities.CalculatorServiceDescription;
 import myob.technicaltest.calculator.lib.exceptions.InvalidInputException;
 import myob.technicaltest.calculator.lib.exceptions.InvalidValueException;
 import myob.technicaltest.calculator.lib.exceptions.OperationException;
@@ -31,12 +33,6 @@ public class AdditionService extends CalculatorService{
 		return Integer.toString(total);
 	}
 
-	@Override
-	public List<String> getExpectedParameters() {
-		LinkedList<String> expectedParams = new LinkedList<>();
-		expectedParams.add("operand");
-		return expectedParams;
-	}
 
 	@Override
 	public void validateInput(Map<String, List<String>> input) throws InvalidInputException {
@@ -55,10 +51,14 @@ public class AdditionService extends CalculatorService{
 	}
 
 	@Override
-	public String getDescription() {
-		return "Addition Service: Calculates the addition of 'n' numbers\n"
-				+ "			@param  operand List of one or more numbers to add\n"
-				+ "			@return The sum of all operand values provided\n";
+	public CalculatorServiceDescription getDescription() {
+		CalculatorServiceDescription description = new CalculatorServiceDescription();
+		HashMap<String, String> parameters = new HashMap<>(); 
+		description.setDescription("AdditionService: Service used to add up a list of 'n' numbers");
+		parameters.put("operand", "One or more numbers to be added up together");
+		description.setParameters(parameters);
+		description.setOutput("The resulting value from adding the list of operands");
+		return description;
 	}
 
 
