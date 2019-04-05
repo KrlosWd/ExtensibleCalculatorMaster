@@ -8,6 +8,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -52,7 +53,7 @@ public class ServiceManagerControllerTest {
 		String path = "dummy";
 		String className = "this.is.a.dummy.Class";
 		doNothing().when(serviceManager).setService(path, className);
-		mvc.perform(post("/calculator/manager/service")
+		mvc.perform(put("/calculator/manager/service")
 				.param("path", path)
 				.param("className", className))
 				.andExpect(status().isOk())
@@ -65,7 +66,7 @@ public class ServiceManagerControllerTest {
 		String path = "dummy";
 		String className = "this.is.a.dummy.Class";
 		doThrow(new ClassNotFoundException("Class ("+className+") not found")).when(serviceManager).setService(path, className);
-		mvc.perform(post("/calculator/manager/service")
+		mvc.perform(put("/calculator/manager/service")
 				.param("path", path)
 				.param("className", className))
 				.andExpect(status().isNotFound())
@@ -78,7 +79,7 @@ public class ServiceManagerControllerTest {
 		String path = "dummy";
 		String className = "this.is.a.dummy.Class";
 		doThrow(new InstantiationException("Class ("+className+") instantiation error")).when(serviceManager).setService(path, className);
-		mvc.perform(post("/calculator/manager/service")
+		mvc.perform(put("/calculator/manager/service")
 				.param("path", path)
 				.param("className", className))
 				.andExpect(status().isBadRequest())
@@ -91,7 +92,7 @@ public class ServiceManagerControllerTest {
 		String path = "dummy";
 		String className = "this.is.a.dummy.Class";
 		doThrow(new NotACalculatorServiceException(className)).when(serviceManager).setService(path, className);
-		mvc.perform(post("/calculator/manager/service")
+		mvc.perform(put("/calculator/manager/service")
 				.param("path", path)
 				.param("className", className))
 				.andExpect(status().isBadRequest())
@@ -104,7 +105,7 @@ public class ServiceManagerControllerTest {
 		String path = "dummy";
 		String className = "this.is.a.dummy.Class";
 		doThrow(new IllegalAccessException("Illegal access to ("+className+") class")).when(serviceManager).setService(path, className);
-		mvc.perform(post("/calculator/manager/service")
+		mvc.perform(put("/calculator/manager/service")
 				.param("path", path)
 				.param("className", className))
 				.andExpect(status().isForbidden())

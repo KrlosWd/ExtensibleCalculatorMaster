@@ -23,43 +23,62 @@ import myob.technicaltest.calculator.lib.entities.CalculatorService;
 import myob.technicaltest.calculator.lib.exceptions.InvalidInputException;
 import myob.technicaltest.calculator.lib.exceptions.MissingParametersException;
 import myob.technicaltest.calculator.lib.exceptions.OperationException;
+import myob.technicaltest.calculator.utils.CalculatorServiceLoader;
 import myob.technicaltest.calculator.utils.PropertiesReader;
 
 @RestController
 public class RootController {
+	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(RootController.class);
 	@Autowired
 	ServiceManager serviceManager; 
 	
 	/**
+	 * USE CASE 1:	Hello world message
+	 * ENDPOINT:	/calculator
+	 * METHOD:		GET 
+	 * PARAMS:		N/A
 	 * Hello World endpoint
 	 * @return SimpleResponse message
 	 */
 	@GetMapping(value = "/calculator", produces = "application/json; charset=UTF-8")
 	public SimpleResponse helloWorld() {
-		return new SimpleResponse("Hello World");
+		log.trace("GET Request to /calculator");
+		SimpleResponse response = new SimpleResponse("Hello World");
+		log.trace("RESPONSE: " + response);
+		return response;
 	}
 	
 	/**
+	 * USE CASE 2: Health point status
+	 * END POINT:	/calculator/status
+	 * METHOD:		GET
+	 * PARAMS:		N/A
 	 * Endpoint to check the current status of the ExtensibleCalculator. It shows the list of currently 
 	 * available services
 	 * @return List of currently available services
 	 */
 	@GetMapping(value = "/calculator/status", produces = "application/json; charset=UTF-8")
 	public List<CalculatorServiceEntity> getCalculatorServiceList(){
+		log.trace("GET Request to /calculator/status");
 		LinkedList<CalculatorServiceEntity> entities = new LinkedList<>();
 		for(String key: serviceManager.keySet()){
 			entities.add(new CalculatorServiceEntity(key, serviceManager.getService(key).getClass().getCanonicalName()));
 		}
+		log.trace("RESPONSE: " + entities);
 		return entities;
 	}
 	
 	/**
-	 * Metadata endpoint
+	 * USE CASE 3: Project metadata
+	 * END POINT:	/calculator/metadata
+	 * METHOD:		GET
+	 * PARAMS:		N/A
 	 * @return Metadata object with metadata info of the project
 	 * @throws IOException is an error occurred while loading the properties files containing the metadata
 	 */
 	@GetMapping(value = "/calculator/metadata", produces = "application/json; charset=UTF-8")
 	public Metadata getProjectMetadata() throws IOException{
+		log.trace("GET Request to /calculator/metadata");
 		HashMap<String, String> authormeta = new HashMap<>();
 		HashMap<String, String> projectmeta;
 		
@@ -69,11 +88,18 @@ public class RootController {
 		projectmeta = PropertiesReader.loadProperties("maven.properties", 
 				new LinkedList<String>(Arrays.asList("name","version", "description")));
 		
-		return new Metadata(authormeta, projectmeta);
+		Metadata meta  =new Metadata(authormeta, projectmeta) ;
+		log.trace("RESPONSE:" + meta);
+		return meta;
+		
 	}
 	
 	
 	/**
+	 * USE CASE 4: Request CalculatorService in path 'path'
+	 * END POINT:	/calculator/service/{path}
+	 * METHOD:		GET
+	 * PARAMS:		Those required by the requested service
 	 * Endpoint used as router to access all CalculatorService implementations loaded
 	 * @param path This is the path related to one CalculatorService
 	 * @param allParams Complete list of parameters from the request
@@ -88,6 +114,7 @@ public class RootController {
 			@RequestParam MultiValueMap<String, String> allParams) 
 					throws CalculatorServiceNotFoundException, MissingParametersException, 
 					OperationException, InvalidInputException {
+		log.trace("GET Request to /calculator/service/" + path);
 		if(!serviceManager.containsService(path)) {
 			throw new CalculatorServiceNotFoundException(path);
 		}
@@ -98,11 +125,16 @@ public class RootController {
 				allParams.toString(), 
 				output, 
 				srv.getClass().getName());
+		log.trace("RESPONSE:" + res);
 		return res;
 	}
 	
 	
 	/**
+	 * USE CASE 5: Request help information of the CalculatorService in path 'path'
+	 * END POINT:	/calculator/service/{path}/help
+	 * METHOD:		GET
+	 * PARAMS:		N/A
 	 * Endpoint to get help of any given CalculatorService
 	 * @param path The path to the CalculatorService
 	 * @return help message for the CalculatorService
@@ -110,11 +142,14 @@ public class RootController {
 	 */
 	@GetMapping(value = "/calculator/service/{path}/help", produces = "application/json; charset=UTF-8")
 	public SimpleResponse provideServiceHelp(@PathVariable String path) throws CalculatorServiceNotFoundException {
+		log.trace("GET Request to /calculator/service/" + path + "/help");
 		if(!serviceManager.containsService(path)) {
 			throw new CalculatorServiceNotFoundException(path);
 		}
 		CalculatorService srv = serviceManager.getService(path);
-		return new SimpleResponse(srv.getDescription());
+		SimpleResponse res = new SimpleResponse(srv.getDescription());
+		log.trace("RESPONSE:" + res);
+		return res;
 	}
 	
 }

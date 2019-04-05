@@ -6,6 +6,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -68,7 +69,7 @@ public class ServiceManagerControllerIntegrationTest {
 	public void testLoadService() throws Exception {
 		String path = "addition2";
 		String className = AdditionService.class.getCanonicalName();
-		mvc.perform(post("/calculator/manager/service")
+		mvc.perform(put("/calculator/manager/service")
 				.param("path", path)
 				.param("className", className))
 				.andExpect(status().isOk())
@@ -79,7 +80,7 @@ public class ServiceManagerControllerIntegrationTest {
 	@Test
 	public void testLoadService_thowsClassNotFoundException() throws Exception {
 		String className = "this.is.a.dummy.Class";
-		mvc.perform(post("/calculator/manager/service")
+		mvc.perform(put("/calculator/manager/service")
 				.param("path", "dummy")
 				.param("className", className))
 				.andExpect(status().isNotFound())
@@ -91,7 +92,7 @@ public class ServiceManagerControllerIntegrationTest {
 	public void testLoadService_thowsNotACalculatorServiceException() throws Exception {
 		String path = "string";
 		String className = String.class.getCanonicalName();
-		mvc.perform(post("/calculator/manager/service")
+		mvc.perform(put("/calculator/manager/service")
 				.param("path", path)
 				.param("className", className))
 				.andExpect(status().isBadRequest())

@@ -3,6 +3,7 @@ package myob.technicaltest.calculator.endpoints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,10 +24,15 @@ import myob.technicaltest.calculator.exceptions.UnableToReadJarException;
  */
 @RestController
 public class ServiceManagerController {
+	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ServiceManagerController.class);
 	@Autowired
 	ServiceManager serviceManager; 
 	
 	/**
+	 * USE CASE 6:	Load jar file in a given path
+	 * END POINT:	/calculator/manager/jar
+	 * METHOD:		POST
+	 * PARAMS:		- filepath Absolute path to the jar to be loaded
 	 * Endpoint used to load a jar given its absolute path in the system
 	 * @param filepath	absolute path of the jarfile to load
 	 * @return	Response message
@@ -36,13 +42,21 @@ public class ServiceManagerController {
 	 * @throws JarAlreadyLoadedException if the jar had been loaded previously
 	 * @throws ClassAlreadyLoadedException if one class of the jar had been loaded before
 	 */
-	@PostMapping("/calculator/manager/jar")
+	@PostMapping(value = "/calculator/manager/jar", produces = "application/json; charset=UTF-8")
 	public SimpleResponse loadJar(@RequestParam String filepath) throws JarNotFoundException, NotAJarFileException, UnableToReadJarException, JarAlreadyLoadedException, ClassAlreadyLoadedException {
 		serviceManager.loadJarfile(filepath);
-		return new SimpleResponse("Jarfile ["+filepath+"] loaded successfully!");
+		log.trace("POST request to /calculator/manager/jar");
+		SimpleResponse res = new SimpleResponse("Jarfile ["+filepath+"] loaded successfully!");
+		log.trace("RESPONSE: "+ res);
+		return res;
 	}
 	
 	/**
+	 * USE CASE 7:	Load a CalculatorService into a given path
+	 * END POINT:	/calculator/manager/service
+	 * METHOD:		PUT
+	 * PARAMS:		- path Path where the CalculatorService is to be set (See Use cases 4 and 5)
+	 *  			- className the canonical name of the class to be loaded
 	 * Used to load a CalculatorService provided that the jar containing it had been loaded before
 	 * @param path	path where the service will be available at (e.g., /calculator/service/{path})
 	 * @param className Name of the class to be loaded
@@ -52,38 +66,55 @@ public class ServiceManagerController {
 	 * @throws NotACalculatorServiceException if the class is not a CalculatorService
 	 * @throws IllegalAccessException if an illegal access was attempted as a result of loading the class
 	 */
-	@PostMapping("/calculator/manager/service")
+	@PutMapping(value = "/calculator/manager/service", produces = "application/json; charset=UTF-8")
 	public SimpleResponse loadService(@RequestParam String path, @RequestParam String className) 
 			throws ClassNotFoundException, InstantiationException, NotACalculatorServiceException, IllegalAccessException {
 		serviceManager.setService(path, className);
-		return new SimpleResponse("CalculatorService ["+className+"] loaded in path ["+path+"] successfully!");
+		log.trace("PUT request to /calculator/manager/service");
+		SimpleResponse res = new SimpleResponse("CalculatorService ["+className+"] loaded in path ["+path+"] successfully!");
+		log.trace("RESPONSE: "+ res);
+		return res;
 	}
 	
 	/**
+	 * USE CASE 8:	Removes the CalculatorService servicing in a given path
+	 * END POINT:	/calculator/manager/service
+	 * METHOD:		DELETE
+	 * PARAMS:		- path Path of the CalculatorService to be removed
 	 * Endpoint used to remove a service from the list of available services. WARNING: this method does not "unloads" the class
 	 * related to the service from the ClassLoader
 	 * @param path the service to remove
 	 * @return Response message
 	 * @throws CalculatorServiceNotFoundException if the service in "path" does not exists
 	 */
-	@DeleteMapping("/calculator/manager/service")
+	@DeleteMapping(value = "/calculator/manager/service", produces = "application/json; charset=UTF-8")
 	public SimpleResponse removeService(@RequestParam String path) throws CalculatorServiceNotFoundException {
+		log.trace("DELETE request to /calculator/manager/service");
 		if(!serviceManager.containsService(path)) {
 			throw new CalculatorServiceNotFoundException(path);
 		}
 		serviceManager.removeService(path);
-		return new SimpleResponse("CalculatorService in path ["+path+"] removed successfully!");
+		SimpleResponse res = new SimpleResponse("CalculatorService in path ["+path+"] removed successfully!");
+		log.trace("RESPONSE: "+ res);
+		return res;
 	}
 	
 	/**
+	 * USE CASE 9:	Removes all CalculatorService's
+	 * END POINT:	/calculator/manager/allServices
+	 * METHOD:		DELETE
+	 * PARAMS:		- path Path of the CalculatorService to be removed
 	 * End point used to remove all services from the lists of available services. WARNINNG: this method does not "unload" classes
 	 * related to the services from the ClassLoader
 	 * @return Response Message
 	 */
-	@DeleteMapping("/calculator/manager/allServices")
+	@DeleteMapping(value = "/calculator/manager/allServices", produces = "application/json; charset=UTF-8")
 	public SimpleResponse removeAllServices() {
+		log.trace("DELETE request to /calculator/manager/allServices");
 		int serviceCount = serviceManager.getServicesCount();
 		serviceManager.emptyServices();
-		return new SimpleResponse("Removed ["+serviceCount+"] CalculatorServices successfully!");
+		SimpleResponse res = new SimpleResponse("Removed ["+serviceCount+"] CalculatorServices successfully!");
+		log.trace("RESPONSE: "+ res);
+		return res;
 	}
 }
