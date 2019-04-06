@@ -22,7 +22,7 @@ To build the extensible calculator, simply run the following maven command at th
 
 Once the building process finishes, to run the service use the following command
 ```
-    $ java .jar ExtensibleCalculator/target/ExtensibleCalculator-1.0.0.jar
+    $ java -jar ExtensibleCalculator/target/ExtensibleCalculator-1.0.0.jar
 ```
 Thats is it! To verify that the service is runnins you can either use your browser or curl to make a GET request to the URL `http://localhost:8080/calculator` 
 and you should get the following output:
